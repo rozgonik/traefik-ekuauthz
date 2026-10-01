@@ -1,0 +1,9 @@
+displayName: Client Certificate EKU Authorization Plugin
+summary: "Authorize requests based on the TLS client certificate's EKU fields."
+type: middleware
+
+import: github.com/rozgonik/traefik-ekuauthz
+
+testData:
+  requiredEKUs:
+    - "1.3.6.1.4.1.1.1.1"
