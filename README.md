@@ -55,3 +55,25 @@ tls:
 OIDs must be present in the leaf client certificate. Standard EKUs parsed by
 Go (for example client authentication, `1.3.6.1.5.5.7.3.2`) and private or
 otherwise unknown EKUs are both supported.
+
+### List syntax by provider
+
+`requiredEKUs` must arrive at Traefik as a list of strings. In a YAML dynamic
+configuration file, use YAML list items (not numeric keys):
+
+```yaml
+requiredEKUs:
+  - "1.3.6.1.4.1.1.1.1"
+  - "1.3.6.1.5.5.7.3.2"
+```
+
+For the Docker provider, supply the list as one comma-separated label value:
+
+```yaml
+labels:
+  - "traefik.http.middlewares.my-ekuauthz.plugin.ekuauthz.requiredEKUs=1.3.6.1.4.1.1.1,1.3.6.1.5.5.7.3.2"
+```
+
+Do not index the option in a label (`requiredEKUs.0` or `requiredEKUs[0]`),
+and do not write a YAML item as `- 0: <OID>`. Those forms create a map such as
+`map[0:<OID>]`, while the plugin expects each list element to be a string.
